@@ -1,4 +1,4 @@
-﻿// Type definitions for Paper.js v0.9.18
+// Type definitions for Paper.js v0.9.18
 // Project: http://paperjs.org/
 // Clark Stevenson 
 
