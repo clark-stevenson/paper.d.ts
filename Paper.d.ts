@@ -4,7 +4,25 @@
 
 declare module paper {
 
-    export var paper: PaperScope;
+    export var version: string;
+    export var project: Project;
+    export var projects: Project;
+    export var view: View;
+    export var tool: Tool;
+    export var tools: Tool[];
+    export var settings: Object;
+
+    export function install(scope: any): void;
+    export function setup(canvas: HTMLCanvasElement): void;
+    export function activate(): void;
+
+    export interface IFrameEvent {
+
+        count: number;
+        time: number;
+        delta: number;
+
+    }
 
     export class PaperScope {
 
@@ -251,7 +269,6 @@ declare module paper {
 
     export class Item {
 
-        //#region Fields
         id: number;
         className: string;
         name: string;
@@ -297,7 +314,7 @@ declare module paper {
         fillColor: Color;
         selectedColor: Color;
 
-        onFrame: (event: { count?: number; time?: number; delta?: number }) => void;
+        onFrame: (event: IFrameEvent) => void;
         onMouseDown: (event: MouseEvent) => void;
         onMouseUp: (event: MouseEvent) => void;
         onClick: (event: MouseEvent) => void;
@@ -803,9 +820,10 @@ declare module paper {
         center: Point;
         zoom: number;
 
-        onFrame: (event: { count?: number; time?: number; delta?: number }) => void;
+        onFrame: (event: IFrameEvent) => void;
         onResize: () => void;
 
+        draw(): void;
         remove(): void;
         isVisible(): boolean;
         scrollBy(point: Point): void;
