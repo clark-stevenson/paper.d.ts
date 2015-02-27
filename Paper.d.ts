@@ -895,23 +895,23 @@ declare module paper {
         zoom: number;
 
         onFrame: (event: IFrameEvent) => void;
-        onResize: () => void;
+        onResize: (event: Event) => void;
 
-        draw(): void;
         remove(): void;
         isVisible(): boolean;
         scrollBy(point: Point): void;
         play(): void;
         pause(): void;
         update(): void;
-        projectToView(): Point;
-        viewToProject(): Point;
+        projectToView(point: Point): Point;
+        viewToProject(point: Point): Point;
 
-        attach(type: string, callback: Function): void;
-        attach(param: any): void;
-        detach(type: string, callback: Function): void;
-        detach(param: any): void;
-        fire(type: string, event: any): void;
+        //I cannot use function: Function as it is a reserved keyword
+        on(type: string, callback: () => void): Item;
+        on(object: any): Item;
+        off(type: string, callback: () => void): Item;
+        off(object: any): Item;
+        emit(type: string, event: {}): boolean;
         responds(type: string): boolean;
 
     }
