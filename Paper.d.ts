@@ -10,43 +10,72 @@ declare module paper {
     export var view: View;
     export var tool: Tool;
     export var tools: Tool[];
-    export var settings: Object;
+    export var settings: any;
 
     export function install(scope: any): void;
     export function setup(canvas: HTMLCanvasElement): void;
     export function activate(): void;
 
-    export interface IFrameEvent {
+    export class Line {
 
-        count: number;
-        time: number;
-        delta: number;
+        constructor(point1: Point, point2: Point, asVector?: boolean);
 
-    }
+        getPoint(): Point;
+        getVector(): Point;
+        getLength(): number;
+        intersect(line: Line, isInfinite?: boolean): Point;
+        getSide(): number;
+        getDistance(): number;
 
-    export class PaperScope {
-
-        version: string;
-        project: Project;
-        projects: Project[];
-        view: View;
-        tool: Tool;
-        tools: Tool[];
-        settings: Object;
-
-        install(scope: any): void;
-        setup(canvas: HTMLCanvasElement): void;
-        activate(): void;
-
-        static get (id: string): PaperScope;
+        static intersect(apx: number, apy: number, avx: number, avy: number, bpx: number, bpy: number, bvx: number, bvy: number, asVector: boolean, isInfinite: boolean): Point;
+        static getSide(px: number, py: number, vx: number, vy: number, x: number, y: number, asVector: boolean): number;
+        static getSignedDistance(px: number, py: number, vx: number, vy: number, x: number, y: number, asVector: boolean): number;
 
     }
 
-    export class PaperScript {
+    export class Matrix {
 
-        static compile(code: string, url: string): string;
-        static execute(code: string, scope: PaperScript, url: string): void;
-  
+        constructor(a: number, c: number, b: number, d: number, tx: number, ty: number);
+
+        a: number;
+        c: number;
+        b: number;
+        d: number;
+        tx: number;
+        ty: number;
+        values: number;
+        translation: Point;
+        scaling: Point;
+        rotation: number;
+
+        set(a: number, c: number, b: number, d: number, tx: number, ty: number): Matrix;
+        clone(): Matrix;
+        equals(matrix: Matrix): boolean;
+        toString(): string;
+        reset(): void;
+        apply(): boolean;
+        translate(point: Point): Matrix;
+        translate(dx: number, dy: number): Matrix;
+        scale(scale: number, center?: Point): Matrix;
+        scale(hor: number, ver: number, center?: Point): Matrix;
+        rotate(angle: number, center: Point): Matrix;
+        rotate(angle: number, x: number, y: number): Matrix;
+        shear(shear: Point, center?: Point): Matrix;
+        shear(hor: number, ver: number, center?: Point): Matrix;
+        skew(skew: Point, center?: Point): Matrix;
+        skew(hor: number, ver: number, center?: Point): Matrix;
+        concatenate(mx: Matrix): Matrix;
+        preConcatenate(mx: Matrix): Matrix;
+        isIdentity(): boolean;
+        isInvertible(): boolean;
+        isSingular(): boolean;
+        transform(point: Point): Matrix;
+        transform(src: number[], dst: number[], count: number): number[];
+        inverseTransform(point: Point): Matrix;
+        decompose(): any;
+        inverted(): Matrix;
+        applyToContext(ctx: CanvasRenderingContext2D): void;
+
     }
 
     export class Point {
@@ -57,7 +86,7 @@ declare module paper {
 
         constructor(x: number, y: number);
         constructor(values: number[]);
-        constructor(object: Object);
+        constructor(object: any);
         constructor(size: Size);
         constructor(point: Point);
 
@@ -68,7 +97,7 @@ declare module paper {
         angleInRadians: number;
         quadrant: number;
         selected: boolean;
-        
+
         add(point: Point): Point;
         add(x: number, y: number): Point;
         add(value: number): Point;
@@ -115,64 +144,14 @@ declare module paper {
         ceil(): Point;
         floor(): Point;
         abs(): Point;
-                        
-                     
-    }
 
-    export class Size {
-
-        static min(size1: Size, size2: Size): Size;
-        static max(size1: Size, size2: Size): Size;
-        static random(): Size;
-
-        constructor(width: number, height: number);
-        constructor(array: number[]);
-        constructor(object: Object);
-        constructor(size: Size);
-        constructor(point: Point);
-
-        add(point: Point): Point;
-        add(x: number, y: number): Point;
-        add(value: number): Point;
-
-        subtract(point: Point): Point;
-        subtract(x: number, y: number): Point;
-        subtract(value: number): Point;
-
-        multiply(point: Point): Point;
-        multiply(x: number, y: number): Point;
-        multiply(value: number): Point;
-
-        divide(point: Point): Point;
-        divide(x: number, y: number): Point;
-        divide(value: number): Point;
-
-        modulo(point: Point): Point;
-        modulo(x: number, y: number): Point;
-        modulo(value: number): Point;
-
-        width: number;
-        height: number;
-
-        equals(): boolean;
-        clone(): Size;
-        toString(): string;
-
-        isZero(): boolean;
-        isNan(): boolean;
-
-        round(): Size;
-        ceil(): Size;
-        floor(): Size;
-        abs(): Size;
-   
     }
 
     export class Rectangle {
 
         constructor(point: Point, size: Size);
         constructor(x: number, y: number, width: number, height: number);
-        constructor(object: Object);
+        constructor(object: any);
         constructor(from: Point, to: Point);
         constructor(rt: Rectangle);
 
@@ -222,53 +201,93 @@ declare module paper {
 
     }
 
-    export class Matrix {
+    export class Size {
 
-        constructor(a: number, c: number, b: number, d: number, tx: number, ty: number);
+        static min(size1: Size, size2: Size): Size;
+        static max(size1: Size, size2: Size): Size;
+        static random(): Size;
 
-        a: number;
-        c: number;
-        b: number;
-        d: number;
-        tx: number;
-        ty: number;
-        values: number;
-        translation: Point;
-        scaling: Point;
-        rotation: number;
+        constructor(width: number, height: number);
+        constructor(array: number[]);
+        constructor(object: any);
+        constructor(size: Size);
+        constructor(point: Point);
 
-        set(a: number, c: number, b: number, d: number, tx: number, ty: number): Matrix;
-        clone(): Matrix;
-        equals(matrix: Matrix): boolean;
+        add(point: Point): Point;
+        add(x: number, y: number): Point;
+        add(value: number): Point;
+
+        subtract(point: Point): Point;
+        subtract(x: number, y: number): Point;
+        subtract(value: number): Point;
+
+        multiply(point: Point): Point;
+        multiply(x: number, y: number): Point;
+        multiply(value: number): Point;
+
+        divide(point: Point): Point;
+        divide(x: number, y: number): Point;
+        divide(value: number): Point;
+
+        modulo(point: Point): Point;
+        modulo(x: number, y: number): Point;
+        modulo(value: number): Point;
+
+        width: number;
+        height: number;
+
+        equals(): boolean;
+        clone(): Size;
         toString(): string;
-        reset(): void;
-        apply(): boolean;
-        translate(point: Point): Matrix;
-        translate(dx: number, dy: number): Matrix;
-        scale(scale: number, center?: Point): Matrix;
-        scale(hor: number, ver: number, center?: Point): Matrix;
-        rotate(angle: number, center: Point): Matrix;
-        rotate(angle: number, x: number, y: number): Matrix;
-        shear(shear: Point, center?: Point): Matrix;
-        shear(hor: number, ver: number, center?: Point): Matrix;
-        skew(skew: Point, center?: Point): Matrix;
-        skew(hor: number, ver: number, center?: Point): Matrix;
-        concatenate(mx: Matrix): Matrix;
-        preConcatenate(mx: Matrix): Matrix;
-        isIdentity(): boolean;
-        isInvertible(): boolean;
-        isSingular(): boolean;
-        transform(point: Point): Matrix;
-        transform(src: number[], dst: number[], count: number): number[];
-        inverseTransform(point: Point): Matrix;
-        decompose(): Object;
-        inverted(): Matrix;
-        applyToContext(ctx: CanvasRenderingContext2D): void;
-            
+
+        isZero(): boolean;
+        isNan(): boolean;
+
+        round(): Size;
+        ceil(): Size;
+        floor(): Size;
+        abs(): Size;
+
+    }
+
+    export interface IFrameEvent {
+
+        count: number;
+        time: number;
+        delta: number;
+
+    }
+
+    export class PaperScope {
+
+        version: string;
+        project: Project;
+        projects: Project[];
+        view: View;
+        tool: Tool;
+        tools: Tool[];
+        settings: any;
+
+        install(scope: any): void;
+        setup(canvas: HTMLCanvasElement): void;
+        activate(): void;
+
+        static get(id: string): PaperScope;
+
+    }
+
+    export class PaperScript {
+
+        static compile(code: string, url: string): string;
+        static execute(code: string, scope: PaperScript, url: string): void;
+
     }
 
     export class Item {
 
+        tangent: number;
+        normal: number;
+        curvature: number;
         id: number;
         className: string;
         name: string;
@@ -278,7 +297,7 @@ declare module paper {
         opacity: number;
         selected: boolean;
         clipMask: boolean;
-        data: Object;
+        data: any;
 
         position: Point;
         pivot: Point;
@@ -307,11 +326,12 @@ declare module paper {
         strokeCap: string;
         strokeJoin: string;
         dashOffset: number;
+        strokeScaling: number;
         dashArray: number[];
         miterLimit: number;
         windingRule: string;
 
-        fillColor: Color;
+        fillColor: Color | string;
         selectedColor: Color;
 
         onFrame: (event: IFrameEvent) => void;
@@ -323,21 +343,24 @@ declare module paper {
         onMouseEnter: (event: MouseEvent) => void;
         onMouseLeave: (event: MouseEvent) => void;
 
-        set(props: Object): Item;
+        set(props: any): Item;
         clone(insert?: boolean): Item;
         copyTo(item: Item): Item;
         rasterize(resolution: number): Raster;
         contains(point: Point): boolean;
+        isInside(rect: Rectangle): boolean;
+        intersects(item: Item): boolean;
         hitTest(point: Point, options?: { tolerance?: number; class?: string; fill?: boolean; stroke?: boolean; segments?: boolean; curves?: boolean; handles?: boolean; ends?: boolean; bounds?: boolean; center?: boolean; guides?: boolean; selected?: boolean; }): HitResult;
-        matches(match: Object): boolean;
-        getItems(match: Object): Item[];
-        getItem(match: Object): Item;
+
+        matches(match: any): boolean;
+        matches(name: string, compare: any): boolean;
+        getItems(match: any): Item[];
+        getItem(match: any): Item;
 
         exportJSON(options?: { asString?: boolean; precision?: number }): string;
         importJSON(json: string): void;
         exportSVG(options?: { asString?: boolean; precision?: number; matchShapes?: boolean }): SVGElement;
-        importSVG(svg: SVGElement, options?: Object): Item;
-        importSVG(svg: string, options?: Object): Item;
+        importSVG(svg: SVGElement | string, options?: any): Item;
 
         addChild(item: Item): Item;
         insertChild(index: number, item: Item): Item;
@@ -349,6 +372,8 @@ declare module paper {
         bringToFront(): void;
         reduce(): Item;
         remove(): boolean;
+        replaceWith(item: Item): boolean;
+
         removeChildren(): Item[];
         removeChildren(from: number, to?: number): Item[];
         reverseChildren(): void;
@@ -380,14 +405,15 @@ declare module paper {
         localToGlobal(point: Point): Point;
         fitBounds(rectangle: Rectangle, fill?: boolean): void;
 
-        attach(type: string, callback: Function): void;
-        attach(object: { mousedown?: any; mouseup?: any; mousedrag?: any; click?: any; doubleclick?: any; mousemove?: any; mouseenter?: any; mouseleave?: any; }): void;
-        detach(type: string, callback: Function): void;
-        detach(object: { mousedown?: any; mouseup?: any; mousedrag?: any; click?: any; doubleclick?: any; mousemove?: any; mouseenter?: any; mouseleave?: any; }): void;
-        fire(type: string, event: Object): void;
+        //I cannot use function: Function as it is a reserved keyword
+        on(type: string, callback: () => void): Item;
+        on(object: any): Item;
+        off(type: string, callback: () => void): Item;
+        off(object: any): Item;
+        emit(type: string, event: {}): boolean;
         responds(type: string): boolean;
 
-        removeOn(object: { onMouseMove?: boolean; onMouseDrag?: boolean; onMouseDown?: boolean; onMouseUp?: boolean;}): void;
+        removeOn(object: { move?: boolean; drag?: boolean; down?: boolean; up?: boolean; }): void;
         removeOnMove(): void;
         removeOnDown(): void;
         removeOnDrag(): void;
@@ -397,8 +423,8 @@ declare module paper {
 
     export class Group extends Item {
 
-        constructor(children: Item[]);
-        constructor(object: Object);
+        constructor(children?: Item[]);
+        constructor(object?: any);
 
         clipped: boolean;
 
@@ -407,19 +433,19 @@ declare module paper {
     export class Layer extends Group {
 
         activate(): void;
- 
+
     }
 
     export class Shape extends Item {
 
         static Circle(center: Point, radius: number): Shape;
-        static Circle(object: Object): Shape;
+        static Circle(object: any): Shape;
         static Rectangle(rectangle: Rectangle, radius?: number): Shape;
         static Rectangle(point: Point, size: Size): Shape;
         static Rectangle(from: Point, to: Point): Shape;
-        static Rectangle(object: Object): Shape;
+        static Rectangle(object: any): Shape;
         static Ellipse(rectangle: Rectangle): Shape;
-        static Ellipse(object: Object): Shape;
+        static Ellipse(object: any): Shape;
 
         type: string;
         size: Size;
@@ -451,7 +477,7 @@ declare module paper {
         getPixel(x: number, y: number): Color;
         getPixel(point: Point): Color;
         setPixel(x: number, y: number, color: Color): void;
-        setPixel(point: Point, color: Color): void; 
+        setPixel(point: Point, color: Color): void;
 
         createImageData(size: Size): ImageData;
         getImageData(rect: Rectangle): ImageData;
@@ -511,28 +537,7 @@ declare module paper {
 
     }
 
-    export class Path extends PathItem {
-
-        static Line(from: Point, to: Point): Path;
-        static Line(object: Object): Path;
-        static Circle(center: Point, radius: number): Path;
-        static Circle(object: Object): Path;
-        static Rectangle(rectangle: Rectangle, radius?: number): Path;
-        static Rectangle(point: Point, size: Size): Path;
-        static Rectangle(from: Point, to: Point): Path;
-        static Rectangle(object: Object): Path;
-        static Ellipse(rectangle: Rectangle): Path;
-        static Ellipse(object: Object): Path;
-        static Arc(from: Point, through: Point, to: Point): Path;
-        static Arc(object: Object): Path;
-        static RegularPolygon(center: Point, sides: number, radius: number): Path;
-        static RegularPolygon(object: Object): Path;
-        static Star(center: Point, points: number, radius1: number, radius2: number): Path;
-        static Star(object: Object): Path;
-
-        constructor(segments?: Segment[]);
-        constructor(object: Object);
-        constructor(pathData: string);
+    export interface IPath extends PathItem {
 
         segments: Segment[];
         firstSegment: Segment;
@@ -572,9 +577,78 @@ declare module paper {
 
     }
 
+    export interface LinePath extends IPath {
+        from: Point;
+        to: Point;
+    }
+
+    export interface CirclePath extends IPath {
+        center: Point;
+        radius: number;
+    }
+
+    export interface RectanglePath extends IPath {
+        rectangle: Rectangle;
+        radius?: Size;
+    }
+
+    export interface EliipsePath extends IPath {
+        rectangle: Rectangle;
+    }
+
+    export interface ArcPath extends IPath {
+        from: Point;
+        through: Point;
+        to: Point;
+    }
+
+    export interface RegularPolygonPath extends IPath {
+        center: Point;
+        sides: number;
+        radius: number;
+    }
+
+    export interface StarPath extends IPath {
+        center: Point;
+        points: number;
+        radius1: number;
+        radius2: number;
+    }
+
+    export class Path extends PathItem {
+
+        static Line(from: Point, to: Point): LinePath;
+        static Line(object: { from: Point; to: Point; }): LinePath;
+
+        static Circle(center: Point, radius: number): CirclePath;
+        static Circle(object: { center: Point; radius: number; }): CirclePath;
+
+        static Rectangle(rectangle: Rectangle, radius?: number): RectanglePath;
+        static Rectangle(point: Point, size: Size): RectanglePath;
+        static Rectangle(from: Point, to: Point): RectanglePath;
+        static Rectangle(object: { rectangle: Rectangle; radius?: Size }): RectanglePath;
+
+        static Ellipse(rectangle: Rectangle): EliipsePath;
+        static Ellipse(object: { rectangle: Rectangle; }): EliipsePath;
+
+        static Arc(from: Point, through: Point, to: Point): ArcPath;
+        static Arc(object: { from: Point; through: Point; to: Point; }): ArcPath;
+
+        static RegularPolygon(center: Point, sides: number, radius: number): RegularPolygonPath;
+        static RegularPolygon(object: { center: Point; sides: number; radius: number; }): RegularPolygonPath;
+
+        static Star(center: Point, points: number, radius1: number, radius2: number): StarPath;
+        static Star(object: { center: Point; points: number; radius1: number; radius2: number; }): StarPath;
+
+        constructor(segments?: Segment[]| Point[]);
+        constructor(object?: IPath);
+        constructor(pathData?: string);
+
+    }
+
     export class CompoundPath extends PathItem {
 
-        constructor(object: Object);
+        constructor(object: any);
         constructor(pathData: string);
 
         clockwise: boolean;
@@ -592,7 +666,7 @@ declare module paper {
     export class Segment {
 
         constructor(point?: Point, handleIn?: Point, handleOut?: Point);
-        constructor(object: Object);
+        constructor(object: any);
 
         point: Point;
         handleIn: Point;
@@ -698,14 +772,14 @@ declare module paper {
         selectAll(): void;
         deselectAll(): void;
         hitTest(point: Point, options?: { tolerance?: number; class?: string; fill?: boolean; stroke?: boolean; segments?: boolean; curves?: boolean; handles?: boolean; ends?: boolean; bounds?: boolean; center?: boolean; guides?: boolean; selected?: boolean; }): HitResult;
-        getItems(match: Object): Item[];
-        getItem(match: Object): Item;
+        getItems(match: any): Item[];
+        getItem(match: any): Item;
 
         exportJSON(options?: { asString?: boolean; precision?: number }): string;
         importJSON(json: string): void;
         exportSVG(options?: { asString?: boolean; precision?: number; matchShapes?: boolean }): SVGElement;
-        importSVG(svg: SVGElement, options?: Object): Item;
-        importSVG(svg: string, options?: Object): Item;
+        importSVG(svg: SVGElement, options?: any): Item;
+        importSVG(svg: string, options?: any): Item;
 
     }
 
@@ -755,7 +829,7 @@ declare module paper {
 
         constructor(red: number, green: number, blue: number, alpha?: number);
         constructor(gray: number, alpha?: number);
-        constructor(object: Object);
+        constructor(object: any);
         constructor(color: Gradient, origin: Point, destination: Point, highlight?: Point);
 
         type: string;
@@ -834,10 +908,10 @@ declare module paper {
         viewToProject(): Point;
 
         attach(type: string, callback: Function): void;
-        attach(param: Object): void;
+        attach(param: any): void;
         detach(type: string, callback: Function): void;
-        detach(param: Object): void;
-        fire(type: string, event: Object): void;
+        detach(param: any): void;
+        fire(type: string, event: any): void;
         responds(type: string): boolean;
 
     }
@@ -863,14 +937,14 @@ declare module paper {
         attach(param: { mousedown?: any; mouseup?: any; mousedrag?: any; mousemove?: any; keydown?: any; keyup?: any; }): void;
         detach(type: string, callback: Function): void;
         detach(param: { mousedown?: any; mouseup?: any; mousedrag?: any; mousemove?: any; keydown?: any; keyup?: any; }): void;
-        fire(type: string, event: Object): void;
+        fire(type: string, event: any): void;
         responds(type: string): boolean;
 
     }
 
     export class Event {
 
-        modifiers: Object;
+        modifiers: any;
 
     }
 
@@ -902,7 +976,7 @@ declare module paper {
     export class Key {
 
         static isDown(key: string): boolean;
-        
+
     }
 
     export class KeyEvent extends Event {
@@ -931,10 +1005,12 @@ declare module paper {
     export class PointText extends TextItem {
 
         constructor(point: Point);
-        constructor(object: Object);
+        constructor(object: any);
 
         point: Point;
 
     }
 
 }
+
+export = paper;
