@@ -423,15 +423,41 @@ declare module paper {
 
     export class Group extends Item {
 
+        /**
+         * Creates a new Group item and places it at the top of the active layer.
+         * @param children [optional] - An array of Item Objects children that will be added to the newly created group. — optional
+         */
         constructor(children?: Item[]);
+
+        /**
+         * Creates a new Group item and places it at the top of the active layer.
+         * @param object [optional] - an object literal containing the properties to be set on the group.
+         */
         constructor(object?: any);
 
+        /**
+         * Specifies whether the group item is to be clipped.
+         * When setting to true, the first child in the group is automatically defined as the clipping mask.
+         */
         clipped: boolean;
 
     }
-
     export class Layer extends Group {
 
+        /**
+         * Creates a new Layer item and places it at the end of the project.layers array. The newly created layer will be activated, so all newly created items will be placed within it.
+         * @param children [optional] - An array of Items that will be added to the newly created layer.
+         */
+        constructor(children?: Item[]);
+        /**
+         * Creates a new Layer item and places it at the end of the project.layers array. The newly created layer will be activated, so all newly created items will be placed within it.
+         * @param object [optional] - an object literal containing the properties to be set on the layer.
+         */
+        constructor(object?: any);
+
+        /**
+         * Activates the layer.
+         */
         activate(): void;
 
     }
