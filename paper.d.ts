@@ -1,4 +1,4 @@
-// Type definitions for Paper.js v0.9.21 
+// Type definitions for Paper.js v0.9.22 
 // Project: http://paperjs.org/
 declare module paper {
     
@@ -2576,6 +2576,11 @@ declare module paper {
          * Checks if this curve is linear, meaning it does not define any curve handle.
          */
         isLinear(): boolean;
+
+        /**
+         * TODO?
+         */
+        //isHorizontal(): boolean;
 
         /**
          * Divides the curve into two curves at the given offset. The curve itself is modified and becomes the first part, the second part is returned as a new curve. If the modified curve belongs to a path item, the second part is also added to the path.
