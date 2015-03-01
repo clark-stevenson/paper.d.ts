@@ -1,6 +1,5 @@
-// Type definitions for Paper.js v0.9.21
+// Type definitions for Paper.js v0.9.21 
 // Project: http://paperjs.org/
-
 declare module paper {
     
     /**
@@ -182,7 +181,7 @@ declare module paper {
          * Concatenates this transform with a skew transformation.
          * @param hor - the horizontal skew angle in degrees
          * @param ver - the vertical skew angle in degrees
-         * @param center [optional] - the center for the skew transformation — optional
+         * @param center [optional] - the center for the skew transformation
          */
         skew(hor: number, ver: number, center?: Point): Matrix;
 
@@ -1304,7 +1303,7 @@ declare module paper {
          * Exports (serializes) the project with all its layers and child items to a JSON data string.
          * @param options [optional] - default {asString: true, precision: 5}
          * @param options.asString - whether the JSON is returned as a Object or a String.
-         * @param options.precision - Number — the amount of fractional digits in numbers used in JSON data.
+         * @param options.precision - the amount of fractional digits in numbers used in JSON data.
          */
         exportJSON(options?: { asString?: boolean; precision?: number }): string;
 
@@ -1699,7 +1698,7 @@ declare module paper {
 
         /**
          * Creates a new Group item and places it at the top of the active layer.
-         * @param children [optional] - An array of Item Objects children that will be added to the newly created group. — optional
+         * @param children [optional] - An array of Item Objects children that will be added to the newly created group.
          */
         constructor(children?: Item[]);
 
@@ -1758,7 +1757,7 @@ declare module paper {
         /**
          * Creates a rectangular shape item, with optionally rounded corners.
          * @param rectangle - the rectangle object describing the geometry of the rectangular shape to be created.
-         * @param radius [optional] - the size of the rounded corners — optional, default: null
+         * @param radius [optional] - the size of the rounded corners, default: null
          */
         static Rectangle(rectangle: Rectangle, radius?: number): Shape;
 
@@ -2016,7 +2015,7 @@ declare module paper {
         /**
          * Returns all intersections between two PathItem items as an array of CurveLocation objects. CompoundPath items are also supported.
          * @param path - the other item to find the intersections with
-         * @param sorted [optional] - specifies whether the returned CurveLocation objects should be sorted by path and offset — optional, default: false
+         * @param sorted [optional] - specifies whether the returned CurveLocation objects should be sorted by path and offset, default: false
          */
         getIntersections(path: PathItem, sorted?: boolean): CurveLocation[];
 
@@ -2873,7 +2872,7 @@ declare module paper {
          * Exports (serializes) the project with all its layers and child items to a JSON data string.
          * @param options [optional] - default {asString: true, precision: 5}
          * @param options.asString - whether the JSON is returned as a Object or a String.
-         * @param options.precision - Number — the amount of fractional digits in numbers used in JSON data.
+         * @param options.precision - the amount of fractional digits in numbers used in JSON data.
          */
         exportJSON(options?: { asString?: boolean; precision?: number }): string;
 
@@ -3093,7 +3092,7 @@ declare module paper {
          */
         origin?: Point;
         /**
-         * the destination point of the gradient stops: Array of GradientStop — the gradient stops describing the gradient, as an alternative to providing a gradient object
+         * the destination point of the gradient stops: Array of GradientStop - the gradient stops describing the gradient, as an alternative to providing a gradient object
          */
         destination?: Point;
         /**
@@ -3437,7 +3436,7 @@ declare module paper {
         /**
          * Emit an event on the view.
          * @param type - String('frame'|'resize') the event type
-         * @param event — an object literal containing properties describing the event.
+         * @param event - an object literal containing properties describing the event.
          */
         emit(type: string, event: any): boolean;
 
