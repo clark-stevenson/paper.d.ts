@@ -1,7 +1,68 @@
 // Type definitions for Paper.js v0.9.22 
 // Project: http://paperjs.org/
+
 declare module paper {
-    
+
+    /**
+     * The version of Paper.js, as a string.
+     */
+    export var version: string;
+
+    /**
+    * Gives access to paper's configurable settings.
+    */
+    export var settings: {
+
+        applyMatrix: boolean;
+        handleSize: number;
+        hitTolerance: number;
+
+    };
+
+    /**
+     * The currently active project.
+     */
+    export var project: Project;
+
+    /**
+     * The list of all open projects within the current Paper.js context.
+     */
+    export var projects: Project[];
+
+    /**
+     * The reference to the active project's view.
+     * Read Only.
+     */
+    export var view: View;
+
+    /**
+     * The reference to the active tool.
+     */
+    export var tool: Tool;
+
+    /** 
+     * The list of available tools.
+     */
+    export var tools: Tool[];
+
+    /**
+     * Injects the paper scope into any other given scope. Can be used for examle to inject the currently active PaperScope into the window's global scope, to emulate PaperScript-style globally accessible Paper classes and objects
+     * Please note: Using this method may override native constructors (e.g. Path, RGBColor). This may cause problems when using Paper.js in conjunction with other libraries that rely on these constructors. Keep the library scoped if you encounter issues caused by this.
+     * @param scope - 
+     */
+    export function install(scope: any): void;
+
+    /**
+     * Sets up an empty project for us. If a canvas is provided, it also creates a View for it, both linked to this scope.
+     * @param element - the HTML canvas element this scope should be associated with, or an ID string by which to find the element.
+     */
+    export function setup(canvas: HTMLCanvasElement | string): void;
+
+    /**
+     * Activates this PaperScope, so all newly created items will be placed in its active project.
+     */
+    export function activate(): void;
+        
     /**
      * An affine transform performs a linear mapping from 2D coordinates to other 2D coordinates that preserves the "straightness" and "parallelness" of lines.
      * Such a coordinate transformation can be represented by a 3 row by 3 column matrix with an implied last row of [ 0 0 1 ]. This matrix transforms source coordinates (x,y) into destination coordinates (x',y') by considering them to be a column vector and multiplying the coordinate vector by the matrix according to the following process:
