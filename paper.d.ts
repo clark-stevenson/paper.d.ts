@@ -3778,5 +3778,3 @@ declare module paper {
     }
 
 }
-
-export = paper;
