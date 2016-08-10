@@ -1,7 +1,7 @@
 // Type definitions for Paper.js v0.9.22
 // Project: http://paperjs.org/
 
-declare module paper {
+declare module 'paper' {
 
     /**
      * The version of Paper.js, as a string.
@@ -2562,7 +2562,7 @@ declare module paper {
          * @param isParameter [optional=false] - 
          * @param point - the point for which we search the nearest location
          */
-        getCurvatureAt(offset: number, isParameter?: boolean, point?: paper.Point): number;
+        getCurvatureAt(offset: number, isParameter?: boolean, point?: Point): number;
 
         /**
          * Returns the nearest point on the path to the specified point.
