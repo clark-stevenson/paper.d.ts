@@ -1,6 +1,8 @@
 // Type definitions for Paper.js v0.9.22
 // Project: http://paperjs.org/
 
+type NativeMouseEvent = MouseEvent;
+
 declare module 'paper' {
 
     /**
@@ -547,6 +549,13 @@ declare module 'paper' {
          * Returns a new point with the absolute values of the specified x and y values. The object itself is not modified!
          */
         abs(): Point;
+
+        /*
+         * Returns a new point
+         * @param point - The point you want to add with
+         */
+        add(point: Point): Point;
+        add(point: number[]): Point;
 
     }
     /**
@@ -1222,6 +1231,11 @@ declare module 'paper' {
         fillColor: Color | string;
 
         /**
+         * The fill rule.
+         */
+        fillRule: string;
+
+        /**
          * The color the item is highlighted with when selected. If the item does not specify its own color, the color defined by its layer is used instead.
          */
         selectedColor: Color | string;
@@ -1431,6 +1445,20 @@ declare module 'paper' {
         insertBelow(item: Item): Item;
 
         /**
+         * Moves this item above the specified item. Returns true if the item
+         * was moved.
+         * @param item - the item above which it should be moved
+         */
+        moveAbove(item: Item): boolean;
+
+        /**
+         * Moves this item below the specified item. Returns true if the item
+         * was moved.
+         * @param item - the item below which it should be moved
+         */
+        moveBelow(item: Item): boolean;
+
+        /**
          * Sends this item to the back of all other items within the same parent.
          */
         sendToBack(): void;
@@ -1549,7 +1577,7 @@ declare module 'paper' {
          * Translates (moves) the item by the given offset point.
          * @param delta - the offset to translate the item by
          */
-        translate(delta: number): Point;
+        translate(delta: Point): Point;
 
         /** 
          * Rotates the item by a given angle around the given point.
@@ -4003,4 +4031,78 @@ declare module 'paper' {
 
     }
 
+    /**
+     * A Javascript MouseEvent wrapper
+     */
+    export class MouseEvent extends Event {
+        constructor(type:string, event:NativeMouseEvent, point:Point, target:Item, delta:Point)
+
+        /**
+         * The JavaScript mouse event
+         */
+        event: NativeMouseEvent;
+
+        /**
+         * The position of the mouse in project coordinates when the event was
+         * fired.
+         */
+        point: Point;
+
+        /**
+         *
+         */
+        delta: Point;
+
+        /**
+         * The item that dispatched the event. It is different from
+         * currentTarget when the event handler is called during the bubbling
+         * phase of the event.
+         */
+        target: Item;
+
+        /**
+         * The current target for the event, as the event traverses the scene
+         * graph. It always refers to the element the event handler has been
+         * attached to as opposed to target which identifies the element on
+         * which the event occurred.
+         */
+        currentTarget: Item;
+
+        /**
+         * Type of mouse event
+         */
+        type: 'mousedown' | 'mouseup' | 'mousedrag' | 'click' | 'doubleclick' | 'mousemove' | 'mouseenter' | 'mouseleave';
+
+        /**
+         * The time at which the event was created, in milliseconds since the
+         * epoch.
+         */
+        timeStamp(): number;
+
+        /**
+         * The current state of the keyboard modifiers.
+         */
+        modifiers(): any;
+
+        /**
+         * Cancels the event if it is cancelable, without stopping further
+         * propagation of the event.
+         */
+        preventDefault(): void;
+
+        /**
+         * Prevents further propagation of the current event.
+         */
+        stopPropagation(): void;
+
+        /**
+         * Cancels the event if it is cancelable, and stops stopping further
+         * propagation of the event. This is has the same effect as calling
+         * both stopPropagation() and preventDefault().
+         *
+         * Any handler can also return false to indicate that stop() should be
+         * called right after.
+         */
+        stop(): void;
+    }
 }
