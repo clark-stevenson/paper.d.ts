@@ -4080,11 +4080,6 @@ declare module 'paper' {
         timeStamp(): number;
 
         /**
-         * The current state of the keyboard modifiers.
-         */
-        modifiers(): any;
-
-        /**
          * Cancels the event if it is cancelable, without stopping further
          * propagation of the event.
          */
