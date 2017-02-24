@@ -2254,113 +2254,6 @@ declare module 'paper' {
     export class Path extends PathItem {
 
         /**
-         * Creates a linear path item from two points describing a line.
-         * @param from - the line's starting point
-         * @param to - the line's ending point
-         */
-        static Line(from: Point, to: Point): Path;
-
-        /**
-         * Creates a linear path item from the properties described by an object literal.
-         * @param object - an object literal containing properties describing the path's attributes
-         */
-        static Line(object: any): Path;
-
-        /**
-         * Creates a circular path item.
-         * @param center - the center point of the circle
-         * @param radius - the radius of the circle
-         */
-        static Circle(center: Point, radius: number): Path;
-
-        /**
-         * Creates a circular path item from the properties described by an object literal.
-         * @param object - an object literal containing properties describing the path's attributes
-         */
-        static Circle(object: any): Path;
-
-        /** 
-         * Creates a rectangular path item, with optionally rounded corners.
-         * @param rectangle - the rectangle object describing the geometry of the rectangular path to be created.
-         * @param radius [optional] - the size of the rounded corners default: null
-         */
-        static Rectangle(rectangle: Rectangle, radius?: number): Path;
-
-        /**
-         * Creates a rectangular path item from a point and a size object.
-         * @param point - the rectangle's top-left corner.
-         * @param size - the rectangle's size. 
-         */
-        static Rectangle(point: Point, size: Size): Path;
-
-        /**
-         * Creates a rectangular path item from the passed points. These do not necessarily need to be the top left and bottom right corners, the constructor figures out how to fit a rectangle between them.
-         * @param from - the first point defining the rectangle
-         * @param to - the second point defining the rectangle
-         */
-        static Rectangle(from: Point, to: Point): Path;
-
-        /**
-         * Creates a rectangular path item from the properties described by an object literal.
-         * @param object - an object literal containing properties describing the path's attributes
-         */
-        static Rectangle(object: any): Path;
-
-        /**
-         * Creates an elliptical path item.
-         * @param rectangle - the rectangle circumscribing the ellipse
-         */
-        static Ellipse(rectangle: Rectangle): Path;
-
-        /**
-         * Creates an elliptical path item from the properties described by an object literal.
-         * @param object - an object literal containing properties describing the path's attributes
-         */
-        static Ellipse(object: any): Path;
-        /**
-         * Creates a circular arc path item
-         * @param from - the starting point of the circular arc
-         * @param through - the point the arc passes through
-         * @param to - the end point of the arc
-         */
-        static Arc(from: Point, through: Point, to: Point): Path;
-
-        /**
-         * Creates an circular arc path item from the properties described by an object literal.
-         * @param object - an object literal containing properties describing the path's attributes
-         */
-        static Arc(object: any): Path;
-
-        /**
-         * Creates a regular polygon shaped path item.
-         * @param center - the center point of the polygon
-         * @param sides - the number of sides of the polygon
-         * @param radius - the radius of the polygon
-         */
-        static RegularPolygon(center: Point, sides: number, radius: number): Path;
-
-        /**
-         * Creates a regular polygon shaped path item from the properties described by an object literal.
-         * @param object - an object literal containing properties describing the path's attributes
-         */
-        static RegularPolygon(object: any): Path;
-
-        /**
-         * Creates a star shaped path item. The largest of radius1 and radius2 will be the outer radius of the star. The smallest of radius1 and radius2 will be the inner radius.
-         * @param center - the center point of the star
-         * @param points - the number of points of the star
-         * @param radius1
-         * @param radius2
-         */
-        static Star(center: Point, points: number, radius1: number, radius2: number): Path;
-
-        /**
-         * Creates a star shaped path item from the properties described by an object literal.
-         * @param object - an object literal containing properties describing the path's attributes
-         */
-        static Star(object: any): Path;
-
-        /**
          * Creates a new path item and places it at the top of the active layer.
          * @param segments [optional] - An array of segments (or points to be converted to segments) that will be added to the path
          */
@@ -2600,6 +2493,130 @@ declare module 'paper' {
 
 
     }
+    module Path {
+        export class Line extends Path {
+            /**
+             * Creates a linear path item from two points describing a line.
+             * @param from - the line's starting point
+             * @param to - the line's ending point
+             */
+            constructor(from: Point, to: Point);
+
+            /**
+             * Creates a linear path item from the properties described by an object literal.
+             * @param object - an object literal containing properties describing the path's attributes
+             */
+            constructor(object: any);
+        }
+
+        export class Circle extends Path {
+            /**
+             * Creates a circular path item.
+             * @param center - the center point of the circle
+             * @param radius - the radius of the circle
+             */
+            constructor(center: Point, radius: number);
+
+            /**
+             * Creates a circular path item from the properties described by an object literal.
+             * @param object - an object literal containing properties describing the path's attributes
+             */
+            constructor(object: any);
+        }
+
+        export class Rectangle extends Path {
+            /**
+             * Creates a rectangular path item, with optionally rounded corners.
+             * @param rectangle - the rectangle object describing the geometry of the rectangular path to be created.
+             * @param radius [optional] - the size of the rounded corners default: null
+             */
+            constructor(rectangle: Rectangle, radius ?: number);
+
+            /**
+             * Creates a rectangular path item from a point and a size object.
+             * @param point - the rectangle's top-left corner.
+             * @param size - the rectangle's size.
+             */
+            constructor(point: Point, size: Size);
+
+            /**
+             * Creates a rectangular path item from the passed points. These do not necessarily need to be the top left and bottom right corners, the constructor figures out how to fit a rectangle between them.
+             * @param from - the first point defining the rectangle
+             * @param to - the second point defining the rectangle
+             */
+            constructor(from: Point, to: Point);
+
+            /**
+             * Creates a rectangular path item from the properties described by an object literal.
+             * @param object - an object literal containing properties describing the path's attributes
+             */
+            constructor(object: any);
+        }
+
+        export class Ellipse extends Path {
+            /**
+             * Creates an elliptical path item.
+             * @param rectangle - the rectangle circumscribing the ellipse
+             */
+            constructor(rectangle: Rectangle);
+
+            /**
+             * Creates an elliptical path item from the properties described by an object literal.
+             * @param object - an object literal containing properties describing the path's attributes
+             */
+            constructor(object: any);
+        }
+
+        export class Arc extends Path {
+            /**
+             * Creates a circular arc path item
+             * @param from - the starting point of the circular arc
+             * @param through - the point the arc passes through
+             * @param to - the end point of the arc
+             */
+            constructor(from: Point, through: Point, to: Point);
+
+            /**
+             * Creates an circular arc path item from the properties described by an object literal.
+             * @param object - an object literal containing properties describing the path's attributes
+             */
+            constructor(object: any);
+        }
+
+        export class RegularPolygon extends Path {
+            /**
+             * Creates a regular polygon shaped path item.
+             * @param center - the center point of the polygon
+             * @param sides - the number of sides of the polygon
+             * @param radius - the radius of the polygon
+             */
+            constructor(center: Point, sides: number, radius: number);
+
+            /**
+             * Creates a regular polygon shaped path item from the properties described by an object literal.
+             * @param object - an object literal containing properties describing the path's attributes
+             */
+            constructor(object: any);
+        }
+
+        export class Star extends Path {
+            /**
+             * Creates a star shaped path item. The largest of radius1 and radius2 will be the outer radius of the star. The smallest of radius1 and radius2 will be the inner radius.
+             * @param center - the center point of the star
+             * @param points - the number of points of the star
+             * @param radius1
+             * @param radius2
+             */
+            constructor(center: Point, points: number, radius1: number, radius2: number);
+
+            /**
+             * Creates a star shaped path item from the properties described by an object literal.
+             * @param object - an object literal containing properties describing the path's attributes
+             */
+            constructor(object: any);
+        }
+    }
+
     /**
      * A compound path contains two or more paths, holes are drawn where the paths overlap. All the paths in a compound path take on the style of the backmost path and can be accessed through its item.children list.
      */
