@@ -64,7 +64,7 @@ declare module 'paper' {
      * Activates this PaperScope, so all newly created items will be placed in its active project.
      */
     export function activate(): void;
-        
+
     /**
      * An affine transform performs a linear mapping from 2D coordinates to other 2D coordinates that preserves the "straightness" and "parallelness" of lines.
      * Such a coordinate transformation can be represented by a 3 row by 3 column matrix with an implied last row of [ 0 0 1 ]. This matrix transforms source coordinates (x,y) into destination coordinates (x',y') by considering them to be a column vector and multiplying the coordinate vector by the matrix according to the following process:
@@ -1342,7 +1342,7 @@ declare module 'paper' {
          * @param options.selected - only hit selected items.
          */
         hitTest(point: Point, options?: { tolerance?: number; class?: string; fill?: boolean; stroke?: boolean; segments?: boolean; curves?: boolean; handles?: boolean; ends?: boolean; bounds?: boolean; center?: boolean; guides?: boolean; selected?: boolean; }): HitResult;
-        
+
         /**
          * Checks whether the item matches the criteria described by the given object, by iterating over all of its properties and matching against their values through matches(name, compare).
          * See project.getItems(match) for a selection of illustrated examples.
@@ -2131,7 +2131,7 @@ declare module 'paper' {
          * @param handle2 - The second control point handle for the curve
          * @param to - The end control point of the curve
          */
-        cublicCurveTo(handle1: Point, handle2: Point, to: Point): void;
+        cubicCurveTo(handle1: Point, handle2: Point, to: Point): void;
 
         /**
          * Adds a quadratic bezier curve to the path, defined by a handle and a to point.
@@ -2194,7 +2194,7 @@ declare module 'paper' {
          * @param handle2 - 
          * @param to -
          */
-        cublicCurveBy(handle1: Point, handle2: Point, to: Point): void;
+        cubicCurveBy(handle1: Point, handle2: Point, to: Point): void;
 
         /**
          * 
@@ -2240,7 +2240,7 @@ declare module 'paper' {
          * @param - the path to exclude the intersection of
          */
         exclude(path: PathItem): PathItem;
-        
+
         /**
          * Splits the geometry of this path along the geometry of the specified path returns the result as a new group item.
          * @param - the path to divide by
@@ -2257,7 +2257,7 @@ declare module 'paper' {
          * Creates a new path item and places it at the top of the active layer.
          * @param segments [optional] - An array of segments (or points to be converted to segments) that will be added to the path
          */
-        constructor(segments?: Segment[]| Point[]);
+        constructor(segments?: Segment[] | Point[]);
 
         /**
          * Creates a new path item from an object description and places it at the top of the active layer.
@@ -2382,14 +2382,14 @@ declare module 'paper' {
          * Returns an array containing the removed segments
          */
         removeSegments(): Segment[];
-     
+
         /**
          * Removes the segments from the specified from index to the to index from the path's segments array.
          * @param from - the beginning index, inclusive
          * @param to [optional = segments.length] - the ending index
          * Returns an array containing the removed segments
          */
-        removeSegments(from: number, to?: number): Segment[];   
+        removeSegments(from: number, to?: number): Segment[];
 
         /**
          * Converts the curves in a path to straight lines with an even distribution of points. The distance between the produced segments is as close as possible to the value specified by the maxDistance parameter.
@@ -2530,7 +2530,7 @@ declare module 'paper' {
              * @param rectangle - the rectangle object describing the geometry of the rectangular path to be created.
              * @param radius [optional] - the size of the rounded corners default: null
              */
-            constructor(rectangle: Rectangle, radius ?: number);
+            constructor(rectangle: Rectangle, radius?: number);
 
             /**
              * Creates a rectangular path item from a point and a size object.
@@ -3186,7 +3186,7 @@ declare module 'paper' {
          * @param options.selected - only hit selected items.
          */
         hitTest(point: Point, options?: { tolerance?: number; class?: string; fill?: boolean; stroke?: boolean; segments?: boolean; curves?: boolean; handles?: boolean; ends?: boolean; bounds?: boolean; center?: boolean; guides?: boolean; selected?: boolean; }): HitResult;
-        
+
         /**
          * Fetch items contained within the project whose properties match the criteria in the specified object.
          * Extended matching is possible by providing a compare function or regular expression. Matching points, colors only work as a comparison of the full object, not partial matching (e.g. only providing the x- coordinate to match all points with that x-value). Partial matching does work for item.data.
@@ -4052,7 +4052,7 @@ declare module 'paper' {
      * A Javascript MouseEvent wrapper
      */
     export class MouseEvent extends Event {
-        constructor(type:string, event:NativeMouseEvent, point:Point, target:Item, delta:Point)
+        constructor(type: string, event: NativeMouseEvent, point: Point, target: Item, delta: Point)
 
         /**
          * The JavaScript mouse event
