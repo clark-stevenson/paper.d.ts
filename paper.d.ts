@@ -2555,6 +2555,9 @@ declare module 'paper' {
         }
 
         export class Circle extends Path {
+
+            public center: Point;
+            public radius: number;
             /**
              * Creates a circular path item.
              * @param center - the center point of the circle
