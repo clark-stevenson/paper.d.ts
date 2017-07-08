@@ -206,9 +206,9 @@ declare module 'paper' {
         /**
          * Concatenates this transform with a rotation transformation around an anchor point.
          * @param angle - the angle of rotation measured in degrees
-         * @param center - the anchor point to rotate around
+         * @param center [optional] - the anchor point to rotate around
          */
-        rotate(angle: number, center: Point): Matrix;
+        rotate(angle: number, center?: Point): Matrix;
 
         /**
          * Concatenates this transform with a rotation transformation around an anchor point.
