@@ -2086,7 +2086,7 @@ declare module 'paper' {
          * @param data
          * @param point
          */
-        getImageData(data: ImageData, point: Point): void;
+        setImageData(data: ImageData, point: Point): void;
 
     }
     /**
